@@ -46,7 +46,7 @@ const App = () => {
     ]
   };
   // Handle count
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const updateCount = () => setCount(count + 1);
   // State variables
   const [started, setStarted] = useState(false); // tracks if game started
@@ -56,6 +56,7 @@ const App = () => {
   const handleStart = () => {
     setStarted(true);
     setCurrentIndex(Math.floor(Math.random() * cardSet.cards.length));
+    updateCount();
   };
   // Handle card flip
   const handleFlip = () => {
