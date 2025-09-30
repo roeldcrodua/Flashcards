@@ -5,14 +5,20 @@
 }
 
 .header {
+  text-align: center;
   margin-bottom: 20px;
+}
+
+.start-screen {
+  width: 120%;
+  height: 130%;
 }
 
 .card-container {
   perspective: 1000px;
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin-right: 150px;
 }
 
 .card {
@@ -26,25 +32,28 @@
 
 .card.flipped {
   transform: rotateY(180deg);
+  margin-left: 280px;
 }
 
 .card-front,
 .card-back {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 130%;
   backface-visibility: hidden;
   border: 2px solid #333;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.4), 0 10px 20px 0 rgba(4, 2, 107, 0.59);
 }
 
 .card-front img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 5px;
+  border: 1px solid #333;
 }
 
 .card-back {
@@ -56,7 +65,7 @@
 }
 
 .controls {
-  margin-top: 20px;
+  margin-top: 150px;
 }
 
 button {
@@ -67,8 +76,33 @@ button {
   cursor: pointer;
   background: #007bff;
   color: white;
+  width: 150px;
 }
 
 button:hover {
   background: #0056b3;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.4), 0 10px 20px 0 rgba(142, 141, 202, 0.59);
+}
+
+button:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+h1 {
+    color: rgb(57, 28, 225);
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 4px rgb(225, 35, 243), -2px -2px 4px rgb(206, 241, 11);    ;
+}
+
+h3 {
+    /* width: 700px; */
+    letter-spacing: 1px;
+    color:rgb(16, 4, 4);
+    text-shadow: 2px 2px 4px rgb(243, 189, 28), -2px -2px 4px lightblue;    ;
+}
+h4 {
+    color: rgb(6, 19, 136);
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgb(183, 122, 158), -2px -2px 4px lightblue;    ;
 }
