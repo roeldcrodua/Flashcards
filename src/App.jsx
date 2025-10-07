@@ -117,12 +117,10 @@ const App = () => {
         setFeedback("✅ Correct!");
         setCurrentStreak(currentStreak + 1);
         if (currentStreak + 1 > longestStreak) setLongestStreak(currentStreak + 1);
-        setIsSubmitting(true);
       }
       else {
         setFeedback("❌ Incorrect!");
         setCurrentStreak(0);
-        setIsSubmitting(false);
       }
       updateCount();
     }
