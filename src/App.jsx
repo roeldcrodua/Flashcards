@@ -52,26 +52,99 @@ const App = () => {
   const [started, setStarted] = useState(false); // tracks if game started
   const [currentIndex, setCurrentIndex] = useState(0); // current card index
   const [flipped, setFlipped] = useState(false); // flip state
+  const [cards, setCards] = useState(cardSet.cards);
+  const [userGuess, setUserGuess] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [longestStreak, setLongestStreak] = useState(0);
+  const [masteredCards, setMasteredCards] = useState([]);
+  const currentCard = cards[currentIndex];
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // Start game
   const handleStart = () => {
     setStarted(true);
-    setCurrentIndex(Math.floor(Math.random() * cardSet.cards.length));
-    updateCount();
   };
+
   // Handle card flip
   const handleFlip = () => {
     setFlipped(!flipped);
   };
-  // Handle next card
-  // Use random function
+
+  // Handle Next
   const handleNext = () => {
-    const randomIndex = Math.floor(Math.random() * cardSet.cards.length);
-    setCurrentIndex(randomIndex);
-    setFlipped(false); // reset flip
-    updateCount();
+    if (currentIndex < cards.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      resetAll();
+    }
   };
 
-  const currentCard = cardSet.cards[currentIndex];
+  // Handle previous
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      resetAll();
+    }
+  };
+
+  // Handle Shuffle using Random
+  const handleShuffle = () => {
+    const shuffled = [...cards].sort(() => Math.random() - 0.5);
+    setCards(shuffled);
+    setCurrentIndex(0);
+    resetAll();
+  };
+
+  // Removing space and other non-letter character
+  const normalized = (str) =>
+    str.toLowerCase().replace(/[^\w\s]|_/g, "").replace(" ", "");
+
+
+  // Handle Guess check
+  const handleGuess = () => {
+    const correct = normalized(currentCard.answer).includes(normalized(userGuess));
+    if (userGuess.length < 3) {
+      setFeedback("⚠️ Please enter at least 3 characters.");
+      return;
+    }
+    // If input is empty then disable the submit button
+    if (!userGuess.trim()) {
+      setIsSubmitting(true);
+    }
+    else {
+      setIsSubmitting(false);
+      if (correct) {
+        setFeedback("✅ Correct!");
+        setCurrentStreak(currentStreak + 1);
+        if (currentStreak + 1 > longestStreak) setLongestStreak(currentStreak + 1);
+        setIsSubmitting(true);
+      }
+      else {
+        setFeedback("❌ Incorrect!");
+        setCurrentStreak(0);
+        setIsSubmitting(false);
+      }
+      updateCount();
+    }
+  };
+
+  // Handle Master Card
+  const handleMaster = () => {
+    const updatedCards = cards.filter((_, i) => i !== currentIndex);
+    setMasteredCards([...masteredCards, currentCard]);
+    setCards(updatedCards);
+    if (updatedCards.length > 0) {
+      setCurrentIndex(Math.min(currentIndex, updatedCards.length - 1));
+    }
+    resetAll();
+  };
+
+  // Option Reset
+  const resetAll = () => {
+    setFlipped(false);
+    setUserGuess("");
+    setFeedback("");
+  };
 
   return (
     <div className="app-container">
@@ -79,8 +152,8 @@ const App = () => {
         <h1>{cardSet.title}</h1>
         <h3>{cardSet.description1}</h3>
         <h3>{cardSet.description2}</h3>
-        <h4>Total Flags: {cardSet.cards.length}</h4>
-        <h4>Guess Counter: {count}</h4>
+        <h4>Total Flags: {cardSet.cards.length} | Guess Counter: {count}</h4>
+        <h4>Current Streak: {currentStreak} | Longest Streak: {longestStreak}</h4>
       </div>
       {!started ? (
         <div className="card-container">
@@ -89,6 +162,12 @@ const App = () => {
               <button onClick={handleStart}>Start</button>
             </div>
           </div>
+        </div>
+      ) : cards.length === 0 ? (
+        <div className="empty-screen">
+          <h3>🎉 You’ve mastered all cards!</h3>
+          <p>Mastered: {masteredCards.length}</p>
+          <button onClick={() => window.location.reload()}>Restart</button>
         </div>
       ) : (
         <>
@@ -102,9 +181,33 @@ const App = () => {
               </div>
             </div>
           </div>
-          <div className="controls">
-            <button onClick={handleNext}>Next Card </button>
+          <div className="guess-section">
+            <input
+              type="text"
+              placeholder="Enter your guess..."
+              value={userGuess}
+              onChange={(e) => setUserGuess(e.target.value)}
+            />
+            {/* Disable button if input is empty (after trimming spaces) */}
+            <button onClick={handleGuess} disabled={userGuess.trim().length < 3 && isSubmitting}>Submit</button>
+            <p className={`feedback ${feedback.includes("Correct") ? "correct" : "incorrect"}`}>
+              {feedback}
+            </p>
           </div>
+          <div className="controls">
+            <button onClick={handlePrev} disabled={currentIndex === 0}>
+              ⬅ Prev
+            </button>
+            <button onClick={handleNext} disabled={currentIndex === cards.length - 1}>
+              Next ➡
+            </button>
+            <button onClick={handleShuffle}>🔀 Shuffle</button>
+            <button onClick={handleMaster}>⭐ Mastered</button>
+          </div>
+          <div className="mastered-list">
+            <h4>{masteredCards.length <= 1 ? "Mastered Flag: " : "Mastered Flags: "} {masteredCards.length} | {(cardSet.cards.length - masteredCards.length <= 1) ? "Remaining Card: " : "Remaining Cards: "}  {cardSet.cards.length - masteredCards.length}  </h4>
+          </div>
+
         </>
 
       )}

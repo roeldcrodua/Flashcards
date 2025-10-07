@@ -1,7 +1,6 @@
 .app-container {
   text-align: center;
   font-family: Arial, sans-serif;
-  padding: 20px;
 }
 
 .header {
@@ -65,7 +64,7 @@
 }
 
 .controls {
-  margin-top: 150px;
+  margin-top: 30px;
 }
 
 button {
@@ -90,19 +89,86 @@ button:active {
 }
 
 h1 {
-    color: rgb(57, 28, 225);
-    letter-spacing: 4px;
-    text-shadow: 2px 2px 4px rgb(225, 35, 243), -2px -2px 4px rgb(206, 241, 11);    ;
+  color: rgb(57, 28, 225);
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 4px rgb(225, 35, 243), -2px -2px 4px rgb(206, 241, 11);
+  ;
 }
 
 h3 {
-    /* width: 700px; */
-    letter-spacing: 1px;
-    color:rgb(16, 4, 4);
-    text-shadow: 2px 2px 4px rgb(243, 189, 28), -2px -2px 4px lightblue;    ;
+  /* width: 700px; */
+  letter-spacing: 1px;
+  color: rgb(16, 4, 4);
+  text-shadow: 2px 2px 4px rgb(243, 189, 28), -2px -2px 4px lightblue;
+  ;
 }
+
 h4 {
-    color: rgb(6, 19, 136);
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 4px rgb(183, 122, 158), -2px -2px 4px lightblue;    ;
+  color: rgb(6, 19, 136);
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgb(183, 122, 158), -2px -2px 4px lightblue;
+  ;
+}
+
+.guess-section {
+  margin-top: 15px;
+}
+
+input {
+  padding: 8px;
+  font-size: 16px;
+  width: 200px;
+  margin-right: 20px;
+  margin-top: 150px;
+}
+
+.feedback.correct {
+  color: green;
+  font-weight: bold;
+}
+
+.feedback.incorrect {
+  color: red;
+  font-weight: bold;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+.controls button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.controls button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.mastered-list {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.start-screen button,
+.empty-screen button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+
+.start-screen button:hover,
+.empty-screen button:hover {
+  background-color: #1e7e34;
 }
